@@ -2,10 +2,6 @@ package ha
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -28,53 +24,24 @@ func dataSourceLight() *schema.Resource {
 }
 
 func dataSourceLightRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	client := &http.Client{Timeout: 10 * time.Second}
+	c := m.(*Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	lightId := d.Get("id").(string)
+	lightID := d.Get("id").(string)
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/states/light."+lightId, "https://home.pixelswap.fr:8888"), nil)
+	light, err := c.GetLightState(lightID)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	// this should not be here
-	bearerToken := "xxxx"
-	bearer := "Bearer " + bearerToken
-	req.Header.Add("Authorization", bearer)
-
-	r, err := client.Do(req)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-	defer r.Body.Close()
-
-	/** Just a debug hack to get the output of the API**/
-
-	// body, _ := ioutil.ReadAll(r.Body)
-
-	// diags = append(diags, diag.Diagnostic{
-	// 	Severity: diag.Warning,
-	// 	Summary:  "DEBUG WARNING LOG",
-	// 	Detail:   string([]byte(body)),
-	// })
-
-	// return diags
-
-	light := make(map[string]interface{})
-	err = json.NewDecoder(r.Body).Decode(&light)
-	if err != nil {
-		return diag.FromErr(err)
-	}
-
-	if err := d.Set("state", light["state"]); err != nil {
+	if err := d.Set("state", light.State); err != nil {
 		return diag.FromErr(err)
 	}
 
 	// resource id
-	d.SetId(lightId)
+	d.SetId(lightID)
 
 	return diags
 }

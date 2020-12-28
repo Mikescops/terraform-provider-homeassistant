@@ -25,8 +25,9 @@ terraform init && terraform apply
 - Terraform 0.14.3
 - go 1.15.6
 
-You need to have a Home Assistant long live token :
+You can setup the provider in TF or use Env variables like:
 
 ```
 export HA_BEARER_TOKEN=xxxxxx
+export HA_HOST_URL=https://xxxxxx
 ```

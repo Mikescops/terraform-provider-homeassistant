@@ -7,7 +7,10 @@ terraform {
   }
 }
 
-provider "ha" {}
+provider "ha" {
+  host_url = "https://home.pixelswap.fr:8888/api"
+  # bearer_token = "xxxx"
+}
 
 module "magic_ha_lights" {
   source = "./light"
