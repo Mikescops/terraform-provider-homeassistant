@@ -16,6 +16,10 @@ module "magic_ha_lights" {
   source = "./light"
 }
 
-output "magic_ha_lights" {
+output "magic_ha_lights_initial" {
   value = module.magic_ha_lights.light_info
 }
+
+// output "magic_ha_lights_next" {
+//   value = module.magic_ha_lights.tv_light_info
+// }

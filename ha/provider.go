@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -34,7 +35,9 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("HA_HOST_URL", nil),
 			},
 		},
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"ha_light": resourceLight(),
+		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"ha_light": dataSourceLight(),
 		},
@@ -88,7 +91,7 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 }
 
 func (c *Client) GetLightState(lightID string) (*Light, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/states/light.%s", c.HostURL, lightID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/states/%s", c.HostURL, lightID), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -105,4 +108,39 @@ func (c *Client) GetLightState(lightID string) (*Light, error) {
 	}
 
 	return &light, nil
+}
+
+type LightParams struct {
+	ID string `json:"entity_id,omitempty"`
+}
+
+func (c *Client) SetLightState(lightParams LightParams, stateParam string) ([]Light, error) {
+
+	var state string = "off"
+	if stateParam == "on" {
+		state = "on"
+	}
+
+	rb, err := json.Marshal(lightParams)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/services/light/turn_%s", c.HostURL, state), strings.NewReader(string(rb)))
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := c.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	light := []Light{}
+	err = json.Unmarshal(body, &light)
+	if err != nil {
+		return nil, err
+	}
+
+	return light, nil
 }

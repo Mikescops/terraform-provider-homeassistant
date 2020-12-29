@@ -11,7 +11,7 @@ func dataSourceLight() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceLightRead,
 		Schema: map[string]*schema.Schema{
-			"id": &schema.Schema{
+			"entity_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -29,7 +29,7 @@ func dataSourceLightRead(ctx context.Context, d *schema.ResourceData, m interfac
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	lightID := d.Get("id").(string)
+	lightID := d.Get("entity_id").(string)
 
 	light, err := c.GetLightState(lightID)
 	if err != nil {
