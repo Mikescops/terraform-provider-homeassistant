@@ -3,6 +3,8 @@ package ha
 import (
 	"context"
 
+	hac "terraform-provider-ha/client"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -14,11 +16,11 @@ func resourceLight() *schema.Resource {
 		UpdateContext: resourceLightUpdate,
 		DeleteContext: resourceLightDelete,
 		Schema: map[string]*schema.Schema{
-			"entity_id": &schema.Schema{
+			"entity_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -31,7 +33,7 @@ func resourceLightCreate(ctx context.Context, d *schema.ResourceData, m interfac
 }
 
 func resourceLightRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*Client)
+	c := m.(*hac.Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
@@ -54,7 +56,7 @@ func resourceLightRead(ctx context.Context, d *schema.ResourceData, m interface{
 }
 
 func resourceLightUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*Client)
+	c := m.(*hac.Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
@@ -62,7 +64,7 @@ func resourceLightUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 	id := d.Get("entity_id").(string)
 	state := d.Get("state").(string)
 
-	o, err := c.SetLightState(LightParams{
+	o, err := c.SetLightState(hac.LightParams{
 		ID: id,
 	}, state)
 	if err != nil {
@@ -84,14 +86,14 @@ func resourceLightUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 }
 
 func resourceLightDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*Client)
+	c := m.(*hac.Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
 	id := d.Get("entity_id").(string)
 
-	o, err := c.SetLightState(LightParams{
+	o, err := c.SetLightState(hac.LightParams{
 		ID: id,
 	}, "off")
 	if err != nil {

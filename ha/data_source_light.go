@@ -3,6 +3,8 @@ package ha
 import (
 	"context"
 
+	hac "terraform-provider-ha/client"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -11,11 +13,11 @@ func dataSourceLight() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceLightRead,
 		Schema: map[string]*schema.Schema{
-			"entity_id": &schema.Schema{
+			"entity_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -24,7 +26,7 @@ func dataSourceLight() *schema.Resource {
 }
 
 func dataSourceLightRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*Client)
+	c := m.(*hac.Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
