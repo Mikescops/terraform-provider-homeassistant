@@ -8,8 +8,14 @@ import (
 )
 
 type Light struct {
-	ID    string `json:"entity_id,omitempty"`
-	State string `json:"state,omitempty"`
+	ID         string          `json:"entity_id,omitempty"`
+	State      string          `json:"state,omitempty"`
+	Attributes LightAttributes `json:"attributes,omitempty"`
+}
+
+type LightAttributes struct {
+	Brightness int   `json:"brightness,omitempty"`
+	RgbColor   []int `json:"rgb_color,omitempty"`
 }
 
 func (c *Client) GetLightState(lightID string) (*Light, error) {

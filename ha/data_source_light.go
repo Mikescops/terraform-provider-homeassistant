@@ -21,6 +21,25 @@ func dataSourceLight() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"attributes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"brightness": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"rgb_color": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -42,8 +61,20 @@ func dataSourceLightRead(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
+	if err := d.Set("attributes", flattenAttributes(light.Attributes)); err != nil {
+		return diag.FromErr(err)
+	}
+
 	// resource id
 	d.SetId(lightID)
 
 	return diags
+}
+
+func flattenAttributes(attributes hac.LightAttributes) []interface{} {
+	c := make(map[string]interface{})
+	c["brightness"] = attributes.Brightness
+	c["rgb_color"] = attributes.RgbColor
+
+	return []interface{}{c}
 }
