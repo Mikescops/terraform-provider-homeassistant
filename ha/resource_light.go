@@ -24,6 +24,17 @@ func resourceLight() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"brightness": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"rgb_color": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeInt,
+				},
+			},
 		},
 	}
 }
@@ -63,9 +74,13 @@ func resourceLightUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 
 	id := d.Get("entity_id").(string)
 	state := d.Get("state").(string)
+	brightness := d.Get("brightness").(int)
+	rgb_color := d.Get("rgb_color").([]interface{})
 
 	o, err := c.SetLightState(hac.LightParams{
-		ID: id,
+		ID:         id,
+		Brightness: brightness,
+		RgbColor:   rgb_color,
 	}, state)
 	if err != nil {
 		return diag.FromErr(err)

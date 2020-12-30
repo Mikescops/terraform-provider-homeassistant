@@ -22,6 +22,9 @@ output "light_info" {
 resource "ha_light" "tv" {
   entity_id = local.default_lamp_id
   state = "on"
+
+  rgb_color = [255,0,0]
+  brightness = 100
 }
 
 output "tv_light_info" {
