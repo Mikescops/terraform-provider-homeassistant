@@ -27,10 +27,12 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"ha_light": resourceLight(),
+			"ha_light":       resourceLight(),
+			"ha_mediaplayer": resourceMediaPlayer(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"ha_light": dataSourceLight(),
+			"ha_light":       dataSourceLight(),
+			"ha_mediaplayer": dataSourceMediaPlayer(),
 		},
 		ConfigureContextFunc: providerConfigure,
 	}

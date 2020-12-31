@@ -16,8 +16,16 @@ module "magic_ha_lights" {
   source = "./light"
 }
 
+module "magic_ha_mediaplayer" {
+  source = "./mediaplayer"
+}
+
 output "magic_ha_lights_initial" {
   value = module.magic_ha_lights.light_info
+}
+
+output "magic_ha_mediaplayer_initial" {
+  value = module.magic_ha_mediaplayer.cast_info
 }
 
 // output "magic_ha_lights_next" {
