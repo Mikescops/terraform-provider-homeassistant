@@ -27,6 +27,8 @@ resource "ha_mediaplayer" "tv" {
 
   media_content_id = "https://www.youtube.com/watch?v=aAkMkVFwAoo"
   media_content_type = "video/youtube"
+
+  volume_level = 0.50
 }
 
 output "tv_player_info" {

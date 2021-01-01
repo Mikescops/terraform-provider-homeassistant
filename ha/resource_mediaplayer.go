@@ -32,6 +32,10 @@ func resourceMediaPlayer() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"volume_level": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+			},
 		},
 	}
 }
@@ -57,6 +61,11 @@ func resourceMediaPlayerRead(ctx context.Context, d *schema.ResourceData, m inte
 		return diag.FromErr(err)
 	}
 
+	volume_level_truncated := toFixed(mediaplayer.Attributes.VolumeLevel, 1)
+	if err := d.Set("volume_level", volume_level_truncated); err != nil {
+		return diag.FromErr(err)
+	}
+
 	// resource id
 	d.SetId(mpID)
 
@@ -73,7 +82,7 @@ func resourceMediaPlayerUpdate(ctx context.Context, d *schema.ResourceData, m in
 	media_content_id := d.Get("media_content_id").(string)
 	media_content_type := d.Get("media_content_type").(string)
 
-	o, err := c.SetMediaPlayerState(hac.MediaPlayerParams{
+	o, err := c.SetMediaPlayerState(hac.SetMediaPlayerParams{
 		ID:               id,
 		MediaContentID:   media_content_id,
 		MediaContentType: media_content_type,
@@ -91,6 +100,18 @@ func resourceMediaPlayerUpdate(ctx context.Context, d *schema.ResourceData, m in
 		d.SetId(id)
 	} else {
 		d.SetId(o[0].ID)
+	}
+
+	volume_level, is_volume_set := d.GetOk("volume_level")
+	volume_level_truncated := toFixed(volume_level.(float64), 2)
+	if is_volume_set {
+		_, err := c.SetMediaPlayerVolume(hac.SetMediaPlayerVolumeParams{
+			ID:          id,
+			VolumeLevel: volume_level_truncated,
+		})
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
 
 	return diags
