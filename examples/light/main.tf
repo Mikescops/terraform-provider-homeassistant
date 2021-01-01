@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ha = {
       version = "~> 0.2"
-      source = "hashicorp.com/edu/ha"
+      source  = "hashicorp.com/edu/ha"
     }
   }
 }
@@ -21,9 +21,9 @@ output "light_info" {
 
 resource "ha_light" "tv" {
   entity_id = local.default_lamp_id
-  state = "on"
+  state     = "on"
 
-  rgb_color = [255,0,0]
+  rgb_color  = [255, 0, 0]
   brightness = 100
 }
 
