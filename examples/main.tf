@@ -33,10 +33,10 @@ output "magic_ha_mediaplayer_initial" {
 // }
 
 
-module "holiday_mood" {
-  source = "./holiday_mood"
-  enable_lamps = false
-  enable_google_home = true
-  enable_tv = true
-  desired_holiday_mood = "christmas"
-}
+// module "holiday_mood" {
+//   source = "./holiday_mood"
+//   enable_lamps = false
+//   enable_google_home = true
+//   enable_tv = true
+//   desired_holiday_mood = "christmas"
+// }

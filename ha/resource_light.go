@@ -60,6 +60,10 @@ func resourceLightRead(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.FromErr(err)
 	}
 
+	if err := d.Set("brightness", light.Attributes.Brightness); err != nil {
+		return diag.FromErr(err)
+	}
+
 	// resource id
 	d.SetId(lightID)
 
