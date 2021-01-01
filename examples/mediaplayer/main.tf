@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ha = {
       version = "~> 0.2"
-      source = "hashicorp.com/edu/ha"
+      source  = "hashicorp.com/edu/ha"
     }
   }
 }
@@ -22,10 +22,10 @@ output "cast_info" {
 resource "ha_mediaplayer" "tv" {
   entity_id = local.default_mediaplayer_id
 
-#   media_content_id = "https://soundcloud.com/bangtan/christmas-love-by-jimin-of-bts"
-#   media_content_type = "music"
+  #   media_content_id = "https://soundcloud.com/bangtan/christmas-love-by-jimin-of-bts"
+  #   media_content_type = "music"
 
-  media_content_id = "https://www.youtube.com/watch?v=aAkMkVFwAoo"
+  media_content_id   = "https://www.youtube.com/watch?v=aAkMkVFwAoo"
   media_content_type = "video/youtube"
 
   volume_level = 0.50

@@ -5,7 +5,7 @@ variable "enable_lamps" {
 }
 
 variable "lamps_name" {
-  type        = list
+  type        = list(any)
   description = "List of the lamp names, enable_lamps must be set to true in order to control these lamps"
   default     = ["light.Lampe_TV", "light.Lampe_Cuisine", "light.Lampe_Salon"]
 }
@@ -34,8 +34,15 @@ variable "google_home_name" {
   default     = "media_player.esclave_gentil"
 }
 
-variable desired_holiday_mood {
-  type = string
+variable "volume_level" {
+  type        = number
+  description = "Set the volume level. Volume is a float between 0.01 and 1 (it is a pourcentage)"
+  default     = "0.5"
+}
+
+
+variable "desired_holiday_mood" {
+  type        = string
   description = "Pick your favorite holiday between: christmas, halloween, summer and easter"
-  default = "christmas"
+  default     = "christmas"
 }
