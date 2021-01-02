@@ -79,12 +79,12 @@ func resourceLightUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 	id := d.Get("entity_id").(string)
 	state := d.Get("state").(string)
 	brightness := d.Get("brightness").(int)
-	rgb_color := d.Get("rgb_color").([]interface{})
+	rgbColor := d.Get("rgb_color").([]interface{})
 
 	o, err := c.SetLightState(hac.LightParams{
 		ID:         id,
 		Brightness: brightness,
-		RgbColor:   rgb_color,
+		RgbColor:   rgbColor,
 	}, state)
 	if err != nil {
 		return diag.FromErr(err)

@@ -7,17 +7,20 @@ import (
 	"strings"
 )
 
+// MediaPlayer struct
 type MediaPlayer struct {
 	ID         string                `json:"entity_id,omitempty"`
 	State      string                `json:"state,omitempty"`
 	Attributes MediaPlayerAttributes `json:"attributes,omitempty"`
 }
 
+// MediaPlayerAttributes struct
 type MediaPlayerAttributes struct {
 	VolumeLevel float64 `json:"volume_level,omitempty"`
 	MediaTitle  string  `json:"media_title,omitempty"`
 }
 
+// GetMediaPlayerState get state of a media_player device
 func (c *Client) GetMediaPlayerState(mpID string) (*MediaPlayer, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/states/%s", c.HostURL, mpID), nil)
 	if err != nil {
@@ -38,12 +41,14 @@ func (c *Client) GetMediaPlayerState(mpID string) (*MediaPlayer, error) {
 	return &mediaplayer, nil
 }
 
+// SetMediaPlayerParams params of SetMediaPlayerState
 type SetMediaPlayerParams struct {
 	ID               string `json:"entity_id,omitempty"`
 	MediaContentID   string `json:"media_content_id,omitempty"`
 	MediaContentType string `json:"media_content_type,omitempty"`
 }
 
+// SetMediaPlayerState set state of a media_player device
 func (c *Client) SetMediaPlayerState(mpParams SetMediaPlayerParams) ([]MediaPlayer, error) {
 
 	rb, err := json.Marshal(mpParams)
@@ -70,11 +75,13 @@ func (c *Client) SetMediaPlayerState(mpParams SetMediaPlayerParams) ([]MediaPlay
 	return mediaplayer, nil
 }
 
+// SetMediaPlayerVolumeParams params of SetMediaPlayerVolume
 type SetMediaPlayerVolumeParams struct {
 	ID          string  `json:"entity_id,omitempty"`
 	VolumeLevel float64 `json:"volume_level,omitempty"`
 }
 
+// SetMediaPlayerVolume set volume of a media_player device
 func (c *Client) SetMediaPlayerVolume(params SetMediaPlayerVolumeParams) ([]MediaPlayer, error) {
 
 	rb, err := json.Marshal(params)
@@ -101,10 +108,12 @@ func (c *Client) SetMediaPlayerVolume(params SetMediaPlayerVolumeParams) ([]Medi
 	return mediaplayer, nil
 }
 
+// StopMediaPlayerParams params of StopMediaPlayer
 type StopMediaPlayerParams struct {
 	ID string `json:"entity_id,omitempty"`
 }
 
+// StopMediaPlayer stop a media_player device
 func (c *Client) StopMediaPlayer(params StopMediaPlayerParams) ([]MediaPlayer, error) {
 
 	rb, err := json.Marshal(params)
