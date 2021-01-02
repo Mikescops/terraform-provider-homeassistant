@@ -19,11 +19,13 @@ func Provider() *schema.Provider {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("HA_BEARER_TOKEN", nil),
+				Description: "Long live token generated from Home Assistant settings",
 			},
 			"host_url": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("HA_HOST_URL", nil),
+				Description: "Url of the server host ending by /api",
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{

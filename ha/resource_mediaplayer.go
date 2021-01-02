@@ -17,24 +17,29 @@ func resourceMediaPlayer() *schema.Resource {
 		DeleteContext: resourceMediaPlayerDelete,
 		Schema: map[string]*schema.Schema{
 			"entity_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "ID of the resource in Home Assistant",
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "State of the device",
 			},
 			"media_content_id": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "ID of the content to display",
 			},
 			"media_content_type": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Type of the content to display",
 			},
 			"volume_level": {
-				Type:     schema.TypeFloat,
-				Optional: true,
+				Type:        schema.TypeFloat,
+				Optional:    true,
+				Description: "Volume level from 0.01 to 1",
 			},
 		},
 	}

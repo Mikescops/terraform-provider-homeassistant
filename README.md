@@ -1,5 +1,9 @@
 # Terraform Provider Home Assistant
 
+User documentation is [available on Terraform Registry](https://registry.terraform.io/providers/Mikescops/homeassistant/latest/docs).
+
+## Building provider
+
 Run the following command to build the provider
 
 ```shell
@@ -31,6 +35,11 @@ You can setup the provider in TF or use env variables like:
 export HA_BEARER_TOKEN=xxxxxx
 export HA_HOST_URL=https://<insert_domain_or_ip>/api
 ```
+
+### Using media players
+
+In order to use "ha_mediaplayer", you need to have `media_extractor` integration on your Home Assistant instance.
+Please, follow [this tutorial](https://www.home-assistant.io/integrations/media_extractor/).
 
 ## How to run tests
 

@@ -14,21 +14,25 @@ func dataSourceLight() *schema.Resource {
 		ReadContext: dataSourceLightRead,
 		Schema: map[string]*schema.Schema{
 			"entity_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "ID of the resource in Home Assistant",
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "State of the light",
 			},
 			"attributes": {
-				Type:     schema.TypeList,
-				Computed: true,
+				Type:        schema.TypeList,
+				Computed:    true,
+				Description: "Light attributes",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"brightness": {
-							Type:     schema.TypeInt,
-							Computed: true,
+							Type:        schema.TypeInt,
+							Computed:    true,
+							Description: "Brightness of the light from 0 to 255",
 						},
 						"rgb_color": {
 							Type:     schema.TypeList,
@@ -36,6 +40,7 @@ func dataSourceLight() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
+							Description: "Array of colors : red, green, blue",
 						},
 					},
 				},
