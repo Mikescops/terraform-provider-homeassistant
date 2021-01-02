@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// Client is a strucutre containing all information about connection to host
 type Client struct {
 	HostURL    string
 	HTTPClient *http.Client
@@ -27,7 +28,7 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
+		return nil, fmt.Errorf("status: %d, body: %s, reqUrl: %s, reqBody: %s", res.StatusCode, body, req.URL, req.Body)
 	}
 
 	return body, err

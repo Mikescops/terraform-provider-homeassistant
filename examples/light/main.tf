@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ha = {
       version = "~> 0.2"
-      source  = "hashicorp.com/edu/ha"
+      source  = "pixelswap.fr/iot/ha"
     }
   }
 }
