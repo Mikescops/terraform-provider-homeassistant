@@ -14,25 +14,30 @@ func dataSourceMediaPlayer() *schema.Resource {
 		ReadContext: dataSourceMediaPlayerRead,
 		Schema: map[string]*schema.Schema{
 			"entity_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "ID of the resource in Home Assistant",
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "State of the device",
 			},
 			"attributes": {
-				Type:     schema.TypeList,
-				Computed: true,
+				Type:        schema.TypeList,
+				Computed:    true,
+				Description: "Device attributes",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"volume_level": {
-							Type:     schema.TypeFloat,
-							Computed: true,
+							Type:        schema.TypeFloat,
+							Computed:    true,
+							Description: "Volume level",
 						},
 						"media_title": {
-							Type:     schema.TypeString,
-							Computed: true,
+							Type:        schema.TypeString,
+							Computed:    true,
+							Description: "Title of the media displayed",
 						},
 					},
 				},

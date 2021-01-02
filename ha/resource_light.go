@@ -17,16 +17,19 @@ func resourceLight() *schema.Resource {
 		DeleteContext: resourceLightDelete,
 		Schema: map[string]*schema.Schema{
 			"entity_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "ID of the resource in Home Assistant",
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "State of the light on/off",
 			},
 			"brightness": {
-				Type:     schema.TypeInt,
-				Optional: true,
+				Type:        schema.TypeInt,
+				Optional:    true,
+				Description: "Brightness of the light from 0 to 255",
 			},
 			"rgb_color": {
 				Type:     schema.TypeList,
@@ -34,6 +37,7 @@ func resourceLight() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeInt,
 				},
+				Description: "Array of colors : red, green, blue",
 			},
 		},
 	}
